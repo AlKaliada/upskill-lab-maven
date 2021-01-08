@@ -1,0 +1,4 @@
+com\epam\kaliada\App.class
+com\epam\kaliada\Renamer.class
+com\epam\kaliada\ConfigInfo.class
+com\epam\kaliada\ConfigInfoConverter.class
