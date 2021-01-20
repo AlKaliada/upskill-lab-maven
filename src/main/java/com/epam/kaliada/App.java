@@ -11,36 +11,36 @@ import java.io.*;
 
 
 public class App {
-    private static Logger logger = LogManager.getLogger();
+    private final static Logger LOGGER = LogManager.getLogger();
     public static void main(String[] args)  {
-        logger.log(Level.INFO, "Application started");
+        LOGGER.log(Level.INFO, "Application started");
         String name = new String();
         try{
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             name = reader.readLine();
-            logger.log(Level.INFO, "read config file name: " + name);
+            LOGGER.log(Level.INFO, "read config file name: " + name);
 
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(ConfigInfo.class, new ConfigInfoConverter());
             Gson gson = gsonBuilder.create();
 
             JsonReader jsonReader = new JsonReader(new FileReader(name));
-            logger.log(Level.INFO, "start reading file " + name);
+            LOGGER.log(Level.INFO, "start reading file " + name);
             ConfigInfo configInfo = gson.fromJson(jsonReader, ConfigInfo.class);
-            logger.log(Level.INFO, "finish reading file " + name);
+            LOGGER.log(Level.INFO, "finish reading file " + name);
 
             if (configInfo != null){
                 Renamer renamer = new Renamer();
-                logger.log(Level.INFO, "start renaming files");
+                LOGGER.log(Level.INFO, "start renaming files");
                 renamer.renameFiles(configInfo.getFiles(), configInfo.getSuffix());
-                logger.log(Level.INFO, "application finished working");
+                LOGGER.log(Level.INFO, "application finished working");
             }else {
-                logger.log(Level.WARN, "File " + name + " is empty");
+                LOGGER.log(Level.WARN, "File " + name + " is empty");
             }
         }catch (FileNotFoundException e){
-            logger.log(Level.ERROR, "file " + name + " not found", e);
+            LOGGER.log(Level.ERROR, "file " + name + " not found", e);
         }catch (IOException e){
-            logger.log(Level.ERROR, "problem with read config file name or renaming", e);
+            LOGGER.log(Level.ERROR, "problem with read config file name or renaming", e);
         }
     }
 }
