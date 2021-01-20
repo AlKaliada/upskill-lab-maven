@@ -3,6 +3,7 @@ package com.epam.kaliada;
 import java.nio.file.Path;
 
 public class ConfigInfo {
+
     private Path[] files;
     private String suffix;
 
