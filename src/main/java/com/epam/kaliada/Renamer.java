@@ -19,11 +19,11 @@ public class Renamer {
                 StringBuilder builder = new StringBuilder(fileName);
                 builder = builder.insert(dot, suffix);
                 String newFileName = builder.toString();
-                LOGGER.log(Level.INFO, "start renaming file " + fileName);
+                LOGGER.log(Level.INFO, String.format("start renaming file %s", fileName));
                 Files.move(files[i], files[i].resolveSibling(newFileName));
-                LOGGER.log(Level.INFO, fileName + "->" + newFileName);
+                LOGGER.log(Level.INFO, String.format("%s -> %s", fileName, newFileName));
             }else {
-                LOGGER.log(Level.WARN, "File " + files[i] + " doesn't exist");
+                LOGGER.log(Level.WARN, String.format("File %s doesn't exist", files[i]));
             }
         }
     }

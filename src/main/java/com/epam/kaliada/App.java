@@ -18,27 +18,27 @@ public class App {
         try{
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             name = reader.readLine();
-            LOGGER.log(Level.INFO, "read config file name: " + name);
+            LOGGER.log(Level.TRACE, String.format("read config file name: %s", name));
 
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.registerTypeAdapter(ConfigInfo.class, new ConfigInfoConverter());
             Gson gson = gsonBuilder.create();
 
             JsonReader jsonReader = new JsonReader(new FileReader(name));
-            LOGGER.log(Level.INFO, "start reading file " + name);
+            LOGGER.log(Level.TRACE, String.format("start reading file %s", name));
             ConfigInfo configInfo = gson.fromJson(jsonReader, ConfigInfo.class);
-            LOGGER.log(Level.INFO, "finish reading file " + name);
+            LOGGER.log(Level.TRACE, String.format("finish reading file %s", name));
 
             if (configInfo != null){
                 Renamer renamer = new Renamer();
-                LOGGER.log(Level.INFO, "start renaming files");
+                LOGGER.log(Level.TRACE, "start renaming files");
                 renamer.renameFiles(configInfo.getFiles(), configInfo.getSuffix());
                 LOGGER.log(Level.INFO, "application finished working");
             }else {
-                LOGGER.log(Level.WARN, "File " + name + " is empty");
+                LOGGER.log(Level.WARN, String.format("File %s is empty", name));
             }
         }catch (FileNotFoundException e){
-            LOGGER.log(Level.ERROR, "file " + name + " not found", e);
+            LOGGER.log(Level.ERROR, String.format("file %s not found", name), e);
         }catch (IOException e){
             LOGGER.log(Level.ERROR, "problem with read config file name or renaming", e);
         }
