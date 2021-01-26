@@ -78,16 +78,26 @@ public class XmlDocumentCreator {
         executionTime.appendChild(document.createTextNode(String.valueOf(System.currentTimeMillis() - App.START_TIME)));
         rootElement.appendChild(executionTime);
 
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
         try {
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            DOMSource source = new DOMSource(document);
-            StreamResult result = new StreamResult(new FileWriter(String.format("%s.xml", simpleDateFormat.format(new Date()))));
-            transformer.transform(source, result);
-            LOGGER.log(Level.INFO, "finish creating xml file with results");
-        } catch (TransformerException | IOException e){
+            outputToXmlFile();
+        } catch (IOException | TransformerException e) {
             LOGGER.log(Level.ERROR, e);
         }
+        LOGGER.log(Level.INFO, "finish creating xml file with results");
+
+    }
+
+    private void outputToXmlFile() throws IOException, TransformerException {
+        Transformer transformer = getTransformer();
+        DOMSource source = new DOMSource(document);
+        StreamResult result = new StreamResult(new FileWriter(String.format("%s.xml", simpleDateFormat.format(new Date()))));
+        transformer.transform(source, result);
+    }
+
+    private Transformer getTransformer() throws TransformerConfigurationException {
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        return transformer;
     }
 }
