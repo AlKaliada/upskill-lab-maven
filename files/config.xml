@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="/files/config.xsd">
+	<paths>
+		<path>D:\\Java\\upskill-lab-maven\\1.txt</path>
+		<path>D:\\Java\\upskill-lab-maven\\2.txt</path>
+	</paths>
+	<suffix>MVN</suffix>
+</files>
