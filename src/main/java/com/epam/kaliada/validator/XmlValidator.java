@@ -1,6 +1,5 @@
 package com.epam.kaliada.validator;
 
-import com.epam.kaliada.handler.ConfigInfoErrorHandler;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,20 +16,15 @@ import java.io.IOException;
 
 public class XmlValidator {
     private static final Logger LOGGER = LogManager.getLogger();
-    public static void validateXml(String xml, String xsd){
-        LOGGER.log(Level.TRACE, String.format("start checking %s as valid with schema %s", xml, xsd));
+    public static void validateXml(String xml, String xsd) throws SAXException, IOException {
+        LOGGER.log(Level.TRACE, "start checking {} as valid with schema {}", xml, xsd);
         String language = XMLConstants.W3C_XML_SCHEMA_NS_URI;
         SchemaFactory factory = SchemaFactory.newInstance(language);
         File schemaLocation = new File(xsd);
-        try{
-            Schema schema = factory.newSchema(schemaLocation);
-            Validator validator = schema.newValidator();
-            Source source = new StreamSource(xml);
-            validator.setErrorHandler(new ConfigInfoErrorHandler());
-            validator.validate(source);
-            LOGGER.log(Level.TRACE, String.format("%s valid", xml));
-        }catch (SAXException | IOException e){
-            LOGGER.log(Level.WARN, String.format("%s is not valid", xml), e);
-        }
+        Schema schema = factory.newSchema(schemaLocation);
+        Validator validator = schema.newValidator();
+        Source source = new StreamSource(xml);
+        validator.validate(source);
+        LOGGER.log(Level.TRACE, "{} valid", xml);
     }
 }

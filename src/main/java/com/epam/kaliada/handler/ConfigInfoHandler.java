@@ -35,18 +35,13 @@ public class ConfigInfoHandler extends DefaultHandler {
     }
 
     @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-        LOGGER.log(Level.TRACE, String.format("start parsing element %s", qName));
-        try{
-            ConfigInfoXmlTag temp = ConfigInfoXmlTag.valueOf(qName.toUpperCase());
-            if (withText.contains(temp)){
-                currentXmlTag = temp;
-                currentBuilder = new StringBuilder();
-            }
-        }catch (IllegalArgumentException e){
-            LOGGER.log(Level.ERROR, e);
+    public void startElement(String uri, String localName, String qName, Attributes attributes)throws SAXException{
+        LOGGER.log(Level.TRACE, "start parsing element {}", qName);
+        ConfigInfoXmlTag temp = ConfigInfoXmlTag.valueOf(qName.toUpperCase());
+        if (withText.contains(temp)){
+            currentXmlTag = temp;
+            currentBuilder = new StringBuilder();
         }
-
     }
 
     @Override
@@ -69,11 +64,11 @@ public class ConfigInfoHandler extends DefaultHandler {
                     configInfo.setSuffix(data);
                     break;
                 default:
-                    throw new IllegalArgumentException("j");
+                    throw new SAXException("No such variable");
             }
         }
         currentXmlTag = null;
-        LOGGER.log(Level.TRACE, String.format("finish parsing element %s", qName));
+        LOGGER.log(Level.TRACE, "finish parsing element {}", qName);
     }
 
     @Override

@@ -1,9 +1,7 @@
 package com.epam.kaliada.parser;
 
 import com.epam.kaliada.entity.ConfigInfo;
-import com.epam.kaliada.handler.ConfigInfoErrorHandler;
 import com.epam.kaliada.handler.ConfigInfoHandler;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.SAXException;
@@ -20,28 +18,19 @@ public class ConfigInfoSaxBuilder {
     private ConfigInfoHandler handler = new ConfigInfoHandler();
     private XMLReader reader;
 
-    public ConfigInfoSaxBuilder() {
+    public ConfigInfoSaxBuilder() throws SAXException, ParserConfigurationException {
         SAXParserFactory factory = SAXParserFactory.newInstance();
-        try {
-            SAXParser saxParser = factory.newSAXParser();
-            reader = saxParser.getXMLReader();
-        }catch (ParserConfigurationException | SAXException e){
-            LOGGER.log(Level.ERROR, e);
-        }
+        SAXParser saxParser = factory.newSAXParser();
+        reader = saxParser.getXMLReader();
         reader.setContentHandler(handler);
-        reader.setErrorHandler(new ConfigInfoErrorHandler());
     }
 
     public ConfigInfo getConfigInfo() {
         return configInfo;
     }
 
-    public void buildConfigInfo(String filename){
-        try {
-            reader.parse(filename);
-        }catch (IOException | SAXException e){
-            LOGGER.log(Level.ERROR, e);
-        }
+    public void buildConfigInfo(String filename) throws IOException, SAXException {
+        reader.parse(filename);
         configInfo = handler.getConfigInfo();
     }
 }

@@ -30,19 +30,16 @@ public class XmlDocumentCreator {
     private int idFile;
 
 
-    public XmlDocumentCreator(String fileConfigName, Map<String, String> renamedFiles) {
+    public XmlDocumentCreator(String fileConfigName, Map<String, String> renamedFiles) throws ParserConfigurationException {
         this.fileConfigName = fileConfigName;
         this.renamedFiles = renamedFiles;
         documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        try {
-            documentBuilder = documentBuilderFactory.newDocumentBuilder();
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        }
+        documentBuilder = documentBuilderFactory.newDocumentBuilder();
+
         document = documentBuilder.newDocument();
     }
 
-    public void createXmlDocument(){
+    public void createXmlDocument() throws IOException, TransformerException {
         LOGGER.log(Level.INFO, "Start creating xml file with results");
         String root = "renaming-info";
         Element rootElement = document.createElement(root);
@@ -78,11 +75,8 @@ public class XmlDocumentCreator {
         executionTime.appendChild(document.createTextNode(String.valueOf(System.currentTimeMillis() - App.START_TIME)));
         rootElement.appendChild(executionTime);
 
-        try {
-            outputToXmlFile();
-        } catch (IOException | TransformerException e) {
-            LOGGER.log(Level.ERROR, e);
-        }
+        outputToXmlFile();
+
         LOGGER.log(Level.INFO, "finish creating xml file with results");
 
     }

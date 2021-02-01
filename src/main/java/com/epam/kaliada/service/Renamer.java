@@ -29,12 +29,12 @@ public class Renamer {
                 StringBuilder builder = new StringBuilder(fileName);
                 builder = builder.insert(dot, suffix);
                 String newFileName = builder.toString();
-                LOGGER.log(Level.INFO, String.format("start renaming file %s", fileName));
+                LOGGER.log(Level.TRACE, "start renaming file {}", fileName);
                 Files.move(files.get(i), files.get(i).resolveSibling(newFileName));
                 renamedFiles.put(fileName, newFileName);
-                LOGGER.log(Level.INFO, String.format("%s -> %s", fileName, newFileName));
+                LOGGER.log(Level.TRACE, "{} -> {}", fileName, newFileName);
             }else {
-                LOGGER.log(Level.WARN, String.format("File %s doesn't exist", files.get(i)));
+                LOGGER.log(Level.WARN, "File {} doesn't exist", files.get(i));
             }
         }
         LOGGER.log(Level.TRACE, "finish renaming files");

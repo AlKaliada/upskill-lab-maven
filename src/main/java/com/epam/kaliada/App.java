@@ -9,7 +9,10 @@ import com.epam.kaliada.validator.XmlValidator;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.io.*;
 
 
@@ -33,8 +36,8 @@ public class App {
             XmlDocumentCreator xmlDocumentCreator = new XmlDocumentCreator(xml, renamer.getRenamedFiles());
             xmlDocumentCreator.createXmlDocument();
 
-        }catch (IOException e){
-            LOGGER.log(Level.ERROR, "problem with read config file name or renaming", e);
+        }catch (IOException | ParserConfigurationException | SAXException | TransformerException e){
+            LOGGER.log(Level.ERROR, e);
         }
         LOGGER.log(Level.INFO, "program finish working");
     }
